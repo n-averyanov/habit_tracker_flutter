@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker_flutter/screens/habit_editor_page.dart';
 import 'package:habit_tracker_flutter/screens/home_page.dart';
+import 'package:habit_tracker_flutter/screens/settings_page.dart';
 import 'package:habit_tracker_flutter/themes.dart';
 
 void main() {
@@ -12,10 +14,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(),
       theme: Themes.getThemeFromKey(ThemeKeys.light),
       darkTheme: Themes.getThemeFromKey(ThemeKeys.dark),
       themeMode: ThemeMode.dark,
+      routes: {
+        '/': (context) => HomePage(),
+        '/habit_editor': (context) => HabitEditorPage(),
+        '/settings': (context) => SettingsPage()
+      },
     );
   }
 }
