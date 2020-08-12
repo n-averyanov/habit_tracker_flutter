@@ -17,15 +17,14 @@ class HabitWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Center(
-              child: Text('data'),
+              child: Text(habit.title),
             ),
             Divider(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Flexible(
-                    child: Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    child: Text(habit.description,
                         style: TextStyle(fontSize: 18),
                         )
                         ),

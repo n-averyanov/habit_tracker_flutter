@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker_flutter/events/add_habit.dart';
+import 'package:habit_tracker_flutter/habit_bloc.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 
 class HabitEditorPage extends StatefulWidget {
@@ -52,6 +55,8 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final habitBlock = BlocProvider.of<HabitBlock>(context);
+
     _habit = _habit == null
         ? (ModalRoute.of(context).settings.arguments ?? Habit())
         : _habit;
@@ -139,7 +144,12 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(onPressed: null, label: Text('Save')),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            habitBlock.add(AddHabit(_habit));
+            Navigator.of(context).pop();
+          },
+          label: Text('Save')),
     );
   }
 }
