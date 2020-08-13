@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker_flutter/habit_bloc/events/get_habits.dart';
 import 'package:habit_tracker_flutter/habit_bloc/habit_bloc.dart';
 import 'package:habit_tracker_flutter/screens/habit_editor_page.dart';
 import 'package:habit_tracker_flutter/screens/home_page.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HabitBlock([]),
+      create: (_) => HabitBlock([])..add(getHabits()),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: Themes.getThemeFromKey(ThemeKeys.light),

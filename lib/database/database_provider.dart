@@ -39,7 +39,7 @@ class DatabaseProvider {
       await db.execute("CREATE TABLE $TABLE_HABIT ("
           "$COLUMN_ID INTEGER PRIMARY KEY,"
           "$COLUMN_TITLE TEXT,"
-          "$COLUMN_DESCRIPTION TEXT."
+          "$COLUMN_DESCRIPTION TEXT,"
           "$COLUMN_PRIORITY INTEGER,"
           "$COLUMN_TYPE INTEGER,"
           "$COLUMN_COUNT INTEGER,"
