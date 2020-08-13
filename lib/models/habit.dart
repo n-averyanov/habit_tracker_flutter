@@ -7,7 +7,7 @@ class Habit {
   var priority = HabitPriority.high;
   var type = HabitType.good;
   var count = 0;
-  var frequency = 0;
+  var frequency = HabitFrequency.day;
   var color = 0;
   var date = 0;
   var habitDoneCount = 0;
@@ -22,7 +22,7 @@ class Habit {
       DatabaseProvider.COLUMN_PRIORITY: priority.index,
       DatabaseProvider.COLUMN_TYPE: type.index,
       DatabaseProvider.COLUMN_COUNT: count,
-      DatabaseProvider.COLUMN_FREQUENCY: frequency,
+      DatabaseProvider.COLUMN_FREQUENCY: frequency.index,
       DatabaseProvider.COLUMN_COLOR: color,
       DatabaseProvider.COLUMN_DATE: date,
       DatabaseProvider.COLUMN_DONE_COUNT: habitDoneCount,
@@ -32,7 +32,7 @@ class Habit {
     if (id != null) {
       map[DatabaseProvider.COLUMN_ID] = id;
     }
-    
+
     return map;
   }
 
@@ -43,7 +43,7 @@ class Habit {
     priority = HabitPriority.values[map[DatabaseProvider.COLUMN_PRIORITY]];
     type = HabitType.values[map[DatabaseProvider.COLUMN_TYPE]];
     count = map[DatabaseProvider.COLUMN_COUNT];
-    frequency = map[DatabaseProvider.COLUMN_FREQUENCY];
+    frequency = HabitFrequency.values[map[DatabaseProvider.COLUMN_FREQUENCY]];
     color = map[DatabaseProvider.COLUMN_COLOR];
     date = map[DatabaseProvider.COLUMN_DATE];
     habitDoneCount = map[DatabaseProvider.COLUMN_DONE_COUNT];
@@ -54,3 +54,5 @@ class Habit {
 enum HabitPriority { low, middle, high }
 
 enum HabitType { bad, good }
+
+enum HabitFrequency { day, week, month }

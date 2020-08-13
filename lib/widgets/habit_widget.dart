@@ -30,6 +30,7 @@ class HabitWidget extends StatelessWidget {
               ),
               Divider(),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Flexible(

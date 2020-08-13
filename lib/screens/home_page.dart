@@ -11,7 +11,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Habits'),
-        actions: [SettingsButton()],
+        actions: [
+          IconButton(icon: Icon(Icons.settings), onPressed: (){
+            Navigator.of(context).pushNamed('/settings');
+          })
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
