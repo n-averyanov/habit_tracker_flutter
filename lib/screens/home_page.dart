@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habit_tracker_flutter/habit_bloc.dart';
+import 'package:habit_tracker_flutter/habit_bloc/habit_bloc.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 import 'package:habit_tracker_flutter/widgets/habit_widget.dart';
 import 'package:habit_tracker_flutter/widgets/settings_button.dart';

@@ -1,5 +1,6 @@
-import 'package:habit_tracker_flutter/events/habit_event.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
+
+import 'habit_event.dart';
 
 class AddHabit extends HabitEvent {
   final Habit habit;
