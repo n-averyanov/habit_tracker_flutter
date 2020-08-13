@@ -13,9 +13,7 @@ class HabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HabitBlock>(context);
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-      child: Card(
+    return  Card(
           child: Padding(
         padding: EdgeInsets.all(8),
         child: InkWell(
@@ -60,7 +58,6 @@ class HabitWidget extends StatelessWidget {
             ],
           ),
         ),
-      )),
-    );
+      ));
   }
 }
