@@ -52,7 +52,7 @@ class DatabaseProvider {
     });
   }
 
-  Future<List<Habit>> getHAbits() async {
+  Future<List<Habit>> getHabits() async {
     final db = await database;
 
     var habits = await db.query(TABLE_HABIT, columns: [
@@ -74,9 +74,15 @@ class DatabaseProvider {
     return habitList;
   }
 
-  void insert(Habit habit) async {
+  Future<void> insertHabit(Habit habit) async {
     final db = await database;
 
     db.insert(TABLE_HABIT, habit.toMap());
+  }
+
+  Future<void> deleteHabit(int id) async {
+    final db = await database;
+
+    db.delete(TABLE_HABIT, where: "id = ?", whereArgs: [id]);
   }
 }

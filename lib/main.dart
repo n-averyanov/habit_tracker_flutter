@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HabitBlock([])..add(getHabits()),
+      create: (_) => HabitBlock([])..add(GetHabits()),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: Themes.getThemeFromKey(ThemeKeys.light),
