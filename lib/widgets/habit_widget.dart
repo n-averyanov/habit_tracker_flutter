@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/habit_bloc/events/delete_habit.dart';
@@ -19,34 +20,43 @@ class HabitWidget extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed('/habit_editor',arguments: habit);
+            Navigator.of(context).pushNamed('/habit_editor', arguments: habit);
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Center(
-                child: Text(habit.title),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Spacer(),
+                  Text(habit.title),
+                  Expanded(
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                bloc.add(DeleteHabit(habit.id));
+                              }))),
+                ],
               ),
               Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Flexible(
-                      child: Text(
-                    habit.description,
-                    style: TextStyle(fontSize: 18),
-                  )),
-                  FlatButton(
-                    onPressed: () {
-                      bloc.add(DeleteHabit(habit.id));
-                    },
-                    child: Text('Delete'),
-                    color: Colors.red,
-                  )
-                ],
-              )
+                children: [
+                  Text('${describeEnum(habit.priority)} priority'),
+                  Text('${habit.count} per ${describeEnum(habit.frequency)}')
+              ],),
+              SizedBox(height: 8,),
+              Flexible(
+                  child: Text(
+                habit.description,
+                style: TextStyle(fontSize: 18),
+              )),
             ],
           ),
         ),
