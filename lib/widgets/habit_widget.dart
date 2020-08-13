@@ -17,32 +17,37 @@ class HabitWidget extends StatelessWidget {
       child: Card(
           child: Padding(
         padding: EdgeInsets.all(8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Center(
-              child: Text(habit.title),
-            ),
-            Divider(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Flexible(
-                    child: Text(
-                  habit.description,
-                  style: TextStyle(fontSize: 18),
-                )),
-                FlatButton(
-                  onPressed: () {
-                    bloc.add(DeleteHabit(habit.id));
-                  },
-                  child: Text('Delete'),
-                  color: Colors.red,
-                )
-              ],
-            )
-          ],
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).pushNamed('/habit_editor',arguments: habit);
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Center(
+                child: Text(habit.title),
+              ),
+              Divider(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Flexible(
+                      child: Text(
+                    habit.description,
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  FlatButton(
+                    onPressed: () {
+                      bloc.add(DeleteHabit(habit.id));
+                    },
+                    child: Text('Delete'),
+                    color: Colors.red,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       )),
     );

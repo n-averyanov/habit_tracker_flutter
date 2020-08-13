@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/habit_bloc/events/add_habit.dart';
+import 'package:habit_tracker_flutter/habit_bloc/events/update_habit.dart';
 import 'package:habit_tracker_flutter/habit_bloc/habit_bloc.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 
@@ -16,17 +17,12 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
   TextEditingController _countController = TextEditingController();
   TextEditingController _periodicityController = TextEditingController();
 
-  Habit _habit = Habit();
+  Habit _habit;
+  bool isNew;
 
   @override
   void initState() {
     super.initState();
-
-    _titleController.text = _habit.title;
-    _descriptionController.text = _habit.description;
-    _countController.text = _habit.count.toString();
-    _periodicityController.text = _habit.frequency.toString();
-
     _titleController.addListener(() {
       _habit.title = _titleController.text;
     });
@@ -53,13 +49,22 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
     super.dispose();
   }
 
+  void fillTextBoxes() {
+    _titleController.text = _habit.title;
+    _descriptionController.text = _habit.description;
+    _countController.text = _habit.count.toString();
+    _periodicityController.text = _habit.frequency.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final habitBlock = BlocProvider.of<HabitBlock>(context);
 
-    _habit = _habit == null
-        ? (ModalRoute.of(context).settings.arguments ?? Habit())
-        : _habit;
+    final habit = ModalRoute.of(context).settings.arguments;
+    isNew = habit == null;
+    _habit = habit ?? Habit();
+
+    fillTextBoxes();
 
     return Scaffold(
       appBar: AppBar(
@@ -146,7 +151,11 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            habitBlock.add(AddHabit(_habit));
+            if (isNew) {
+              habitBlock.add(AddHabit(_habit));
+            } else {
+              habitBlock.add(UpdateHabit(_habit));
+            }
             Navigator.of(context).pop();
           },
           label: Text('Save')),

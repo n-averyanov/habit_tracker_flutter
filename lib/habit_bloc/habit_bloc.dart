@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:habit_tracker_flutter/database/database_provider.dart';
 import 'package:habit_tracker_flutter/habit_bloc/events/delete_habit.dart';
 import 'package:habit_tracker_flutter/habit_bloc/events/get_habits.dart';
+import 'package:habit_tracker_flutter/habit_bloc/events/update_habit.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 
 import 'events/add_habit.dart';
@@ -18,16 +19,17 @@ class HabitBlock extends Bloc<HabitEvent, List<Habit>> {
       await db.insertHabit(event.habit);
       final data = await db.getHabits();
       yield data;
-
     } else if (event is DeleteHabit) {
       await db.deleteHabit(event.id);
       final data = await db.getHabits();
       yield data;
-
+    } else if (event is UpdateHabit) {
+      await db.updateHabit(event.habit);
+      final data = await db.getHabits();
+      yield data;
     } else if (event is GetHabits) {
       final data = await db.getHabits();
       yield data;
-      
     } else {
       throw Exception('unknow operation');
     }
