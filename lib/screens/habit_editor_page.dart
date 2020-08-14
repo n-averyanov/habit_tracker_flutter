@@ -15,10 +15,9 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _countController = TextEditingController();
-  TextEditingController _periodicityController = TextEditingController();
 
   Habit _habit;
-  bool isNew;
+  bool _isNew;
 
   @override
   void initState() {
@@ -34,10 +33,6 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
     _countController.addListener(() {
       _habit.count = int.parse(_countController.text);
     });
-
-    _periodicityController.addListener(() {
-      _habit.frequency = int.parse(_periodicityController.text);
-    });
   }
 
   @override
@@ -45,7 +40,6 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
     _titleController.dispose();
     _descriptionController.dispose();
     _countController.dispose();
-    _periodicityController.dispose();
     super.dispose();
   }
 
@@ -53,16 +47,17 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
     _titleController.text = _habit.title;
     _descriptionController.text = _habit.description;
     _countController.text = _habit.count.toString();
-    _periodicityController.text = _habit.frequency.toString();
   }
 
   @override
   Widget build(BuildContext context) {
-    final habitBlock = BlocProvider.of<HabitBlock>(context);
+    final habitBloc = BlocProvider.of<HabitBlock>(context);
 
-    final habit = ModalRoute.of(context).settings.arguments;
-    isNew = habit == null;
-    _habit = habit ?? Habit();
+    if (_habit == null) {
+      final habit = ModalRoute.of(context).settings.arguments;
+      _isNew = habit == null;
+      _habit = habit ?? Habit();
+    }
 
     fillTextBoxes();
 
@@ -130,31 +125,38 @@ class _HabitEditorPageState extends State<HabitEditorPage> {
               TextField(
                 controller: _countController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Count'),
+                decoration: InputDecoration(labelText: 'Times'),
               ),
               SizedBox(
                 height: 8,
               ),
-              Text('In'),
-              TextField(
-                controller: _periodicityController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Periodicity'),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text('Days'),
+              Text('per'),
+              DropdownButton(
+                  isExpanded: true,
+                  value: _habit.frequency,
+                  items: HabitFrequency.values
+                      .map<DropdownMenuItem<HabitFrequency>>(
+                          (HabitFrequency item) {
+                    return DropdownMenuItem(
+                      value: item,
+                      child: Text(describeEnum(item)),
+                    );
+                  }).toList(),
+                  onChanged: (HabitFrequency newValue) {
+                    setState(() {
+                      _habit.frequency = newValue;
+                    });
+                  })
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            if (isNew) {
-              habitBlock.add(AddHabit(_habit));
+            if (_isNew) {
+              habitBloc.add(AddHabit(_habit));
             } else {
-              habitBlock.add(UpdateHabit(_habit));
+              habitBloc.add(UpdateHabit(_habit));
             }
             Navigator.of(context).pop();
           },
