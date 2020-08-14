@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/events/log_out.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/states/user_logged_in.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -12,6 +16,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AuthBlock>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -38,24 +44,34 @@ class _SettingsPageState extends State<SettingsPage> {
                         isChanged = true;
                         theme = newTheme;
                       });
-                    })
+                    }),
+                Builder(builder: (BuildContext context) {
+                  final state = bloc.state;
+                  if (state is UserLoggedIn) {
+                    return RaisedButton(onPressed: () {
+                      bloc.add(LogOut());
+                      Navigator.of(context).pop();
+                    });
+                  } else {
+                    return Text('Error');
+                  }
+                })
               ],
             ),
             Builder(
-              builder: (BuildContext context){
+              builder: (BuildContext context) {
                 return Center(
-                  child: Visibility(
-                      visible: isChanged,
-                      child: RaisedButton(
-                        onPressed: () {
-                          final snackBar = SnackBar(content: Text('Not implemented yet :('));
-                          Scaffold.of(context)
-                              .showSnackBar(snackBar);
-                        },
-                        child: Text('Save'),
-                      )));
+                    child: Visibility(
+                        visible: isChanged,
+                        child: RaisedButton(
+                          onPressed: () {
+                            final snackBar = SnackBar(
+                                content: Text('Not implemented yet :('));
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          },
+                          child: Text('Save'),
+                        )));
               },
-                          
             )
           ],
         ),

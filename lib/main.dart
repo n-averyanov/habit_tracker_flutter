@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
-import 'package:habit_tracker_flutter/blocs/auth_bloc/events/log_in.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_in.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/init_state.dart';
 import 'package:habit_tracker_flutter/screens/habit/habit_editor_page.dart';
 import 'package:habit_tracker_flutter/screens/settings_page.dart';
