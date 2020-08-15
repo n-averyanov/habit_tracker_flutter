@@ -12,6 +12,7 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,17 @@ class _LogInScreenState extends State<LogInScreen> {
               style: TextStyle(fontSize: 24),
             ),
             Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   TextFormField(
                     controller: _emailController,
+                    validator: (value) {
+                      return value.isEmpty
+                          ? 'Enter an email'
+                          : null;
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -40,6 +47,11 @@ class _LogInScreenState extends State<LogInScreen> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: true,
+                    validator: (value) {
+                      return value.length < 6
+                          ? 'Enter a password 6+ chars long'
+                          : null;
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -49,16 +61,20 @@ class _LogInScreenState extends State<LogInScreen> {
                     children: [
                       RaisedButton(
                         onPressed: () {
-                          block.add(SignUp(_emailController.text.trim(),
-                              _passwordController.text.trim()));
+                          if (_formKey.currentState.validate()) {
+                            block.add(SignUp(_emailController.text.trim(),
+                                _passwordController.text.trim()));
+                          }
                         },
                         child: Text('Sign Up'),
                       ),
                       SizedBox(width: 24),
                       RaisedButton(
                         onPressed: () {
-                          block.add(SignIn(_emailController.text.trim(),
-                              _passwordController.text.trim()));
+                          if (_formKey.currentState.validate()) {
+                            block.add(SignIn(_emailController.text.trim(),
+                                _passwordController.text.trim()));
+                          }
                         },
                         child: Text('Sign In'),
                       ),
