@@ -92,4 +92,10 @@ class DatabaseProvider {
     db.update(TABLE_HABIT, habit.toMap(),
         where: "id = ?", whereArgs: [habit.id]);
   }
+
+  Future<void> clearDatabase() async {
+    final db = await database;
+
+    db.delete(TABLE_HABIT);
+  }
 }

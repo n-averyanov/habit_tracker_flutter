@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:habit_tracker_flutter/blocs/habit_bloc/events/clear.dart';
 import 'package:habit_tracker_flutter/database/database_provider.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 
@@ -28,6 +29,10 @@ class HabitBlock extends Bloc<HabitEvent, List<Habit>> {
       final data = await db.getHabits();
       yield data;
     } else if (event is GetHabits) {
+      final data = await db.getHabits();
+      yield data;
+    } else if (event is Clear) {
+      await db.clearDatabase();
       final data = await db.getHabits();
       yield data;
     } else {
