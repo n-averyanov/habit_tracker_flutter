@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_in.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_up.dart';
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -43,12 +44,25 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      block.add(SignIn(
-                          _emailController.text, _passwordController.text));
-                    },
-                    child: Text('Sign In'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RaisedButton(
+                        onPressed: () {
+                          block.add(SignUp(_emailController.text.trim(),
+                              _passwordController.text.trim()));
+                        },
+                        child: Text('Sign Up'),
+                      ),
+                      SizedBox(width: 24),
+                      RaisedButton(
+                        onPressed: () {
+                          block.add(SignIn(_emailController.text.trim(),
+                              _passwordController.text.trim()));
+                        },
+                        child: Text('Sign In'),
+                      ),
+                    ],
                   )
                 ],
               ),

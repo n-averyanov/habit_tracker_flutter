@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_in.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/init_state.dart';
+import 'package:habit_tracker_flutter/screens/auth/register_screen.dart';
 import 'package:habit_tracker_flutter/screens/habit/habit_editor_page.dart';
 import 'package:habit_tracker_flutter/screens/settings_page.dart';
 import 'package:habit_tracker_flutter/themes.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => AuthControlWidget(),
           '/habit_editor': (context) => HabitEditorPage(),
-          '/settings': (context) => SettingsPage()
+          '/settings': (context) => SettingsPage(),
+          '/signUp': (context) => RegisterScreen()
         },
       ),
     );
