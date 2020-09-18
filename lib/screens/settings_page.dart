@@ -6,6 +6,7 @@ import 'package:habit_tracker_flutter/blocs/auth_bloc/events/log_out.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/user_logged_in.dart';
 import 'package:habit_tracker_flutter/blocs/habit_bloc/events/clear.dart';
 import 'package:habit_tracker_flutter/blocs/habit_bloc/habit_bloc.dart';
+import 'package:habit_tracker_flutter/widgets/user_widget.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -18,9 +19,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBlock>(context);
-    final habitBloc = BlocProvider.of<HabitBlock>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -28,55 +26,50 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Text('Theme'),
-                DropdownButton(
-                    value: theme,
-                    items: ThemeMode.values
-                        .map<DropdownMenuItem<ThemeMode>>((ThemeMode theme) {
-                      return DropdownMenuItem<ThemeMode>(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Theme'),
+                    DropdownButton(
                         value: theme,
-                        child: Text(describeEnum(theme)),
-                      );
-                    }).toList(),
-                    onChanged: (ThemeMode newTheme) {
-                      setState(() {
-                        isChanged = true;
-                        theme = newTheme;
-                      });
-                    }),
-                Builder(builder: (BuildContext context) {
-                  final state = authBloc.state;
-                  if (state is UserLoggedIn) {
-                    return RaisedButton(onPressed: () {
-                      authBloc.add(LogOut());
-                      habitBloc.add(Clear());
-                      Navigator.of(context).pop();
-                    });
-                  } else {
-                    return Text('Error');
-                  }
-                })
+                        items: ThemeMode.values
+                            .map<DropdownMenuItem<ThemeMode>>(
+                                (ThemeMode theme) {
+                          return DropdownMenuItem<ThemeMode>(
+                            value: theme,
+                            child: Text(describeEnum(theme)),
+                          );
+                        }).toList(),
+                        onChanged: (ThemeMode newTheme) {
+                          setState(() {
+                            isChanged = true;
+                            theme = newTheme;
+                          });
+                        }),
+                  ],
+                ),
+                Builder(
+                  builder: (BuildContext context) {
+                    return Center(
+                        child: Visibility(
+                            visible: isChanged,
+                            child: RaisedButton(
+                              onPressed: () {
+                                final snackBar = SnackBar(
+                                    content: Text('Not implemented yet :('));
+                                Scaffold.of(context).showSnackBar(snackBar);
+                              },
+                              child: Text('Save'),
+                            )));
+                  },
+                ),
               ],
             ),
-            Builder(
-              builder: (BuildContext context) {
-                return Center(
-                    child: Visibility(
-                        visible: isChanged,
-                        child: RaisedButton(
-                          onPressed: () {
-                            final snackBar = SnackBar(
-                                content: Text('Not implemented yet :('));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          },
-                          child: Text('Save'),
-                        )));
-              },
-            )
+            UserWidget()
           ],
         ),
       ),
