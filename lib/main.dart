@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
-import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_in.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/init_state.dart';
 import 'package:habit_tracker_flutter/screens/auth/register_screen.dart';
 import 'package:habit_tracker_flutter/screens/habit/habit_editor_page.dart';
@@ -18,29 +17,52 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => HabitBlock([])..add(GetHabits())),
-        BlocProvider(
-          create: (_) => AuthBlock(InitState())..add(Init()),
-        )
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: Themes.getThemeFromKey(ThemeKeys.light),
-        darkTheme: Themes.getThemeFromKey(ThemeKeys.dark),
-        themeMode: ThemeMode.dark,
-        routes: {
-          '/': (context) => AuthControlWidget(),
-          '/habit_editor': (context) => HabitEditorPage(),
-          '/settings': (context) => SettingsPage(),
-          '/signUp': (context) => RegisterScreen()
-        },
-      ),
-    );
+    return FutureBuilder(
+        future: Themes.getThemeMode(),
+        builder: (BuildContext context, AsyncSnapshot<ThemeMode> snapshot) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => HabitBlock([])..add(GetHabits())),
+              BlocProvider(
+                create: (_) => AuthBlock(InitState())..add(Init()),
+              )
+            ],
+            child: MaterialApp(
+              title: 'Flutter Demo',
+              theme: Themes.getThemeFromKey(ThemeKeys.light),
+              darkTheme: Themes.getThemeFromKey(ThemeKeys.dark),
+              themeMode: snapshot.data,
+              routes: {
+                '/': (context) => AuthControlWidget(),
+                '/habit_editor': (context) => HabitEditorPage(),
+                '/settings': (context) => SettingsPage(),
+                '/signUp': (context) => RegisterScreen()
+              },
+            ),
+          );
+        });
+
+    // return MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider(create: (_) => HabitBlock([])..add(GetHabits())),
+    //     BlocProvider(
+    //       create: (_) => AuthBlock(InitState())..add(Init()),
+    //     )
+    //   ],
+    //   child: MaterialApp(
+    //     title: 'Flutter Demo',
+    //     theme: Themes.getThemeFromKey(ThemeKeys.light),
+    //     darkTheme: Themes.getThemeFromKey(ThemeKeys.dark),
+    //     themeMode: ThemeMode.dark,
+    //     routes: {
+    //       '/': (context) => AuthControlWidget(),
+    //       '/habit_editor': (context) => HabitEditorPage(),
+    //       '/settings': (context) => SettingsPage(),
+    //       '/signUp': (context) => RegisterScreen()
+    //     },
+    //   ),
+    // );
   }
 }
