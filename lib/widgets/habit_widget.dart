@@ -38,7 +38,7 @@ class HabitWidget extends StatelessWidget {
                                 color: Colors.red,
                               ),
                               onPressed: () {
-                                bloc.add(DeleteHabit(habit.id));
+                                bloc.add(DeleteHabit(habit.uid));
                               }))),
                 ],
               ),

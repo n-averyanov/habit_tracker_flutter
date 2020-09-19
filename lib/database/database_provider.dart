@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
   static const String TABLE_HABIT = 'habit';
-  static const String COLUMN_ID = 'id';
+  static const String COLUMN_UID = 'uid';
   static const String COLUMN_TITLE = 'title';
   static const String COLUMN_DESCRIPTION = 'description';
   static const String COLUMN_PRIORITY = 'priority';
@@ -34,10 +34,10 @@ class DatabaseProvider {
   Future<Database> _createDatabase() async {
     String dbPath = await getDatabasesPath();
 
-    return await openDatabase(join(dbPath, 'habit_database.db'), version: 1,
+    return await openDatabase(join(dbPath, 'habit_database.db'), version: 3,
         onCreate: (db, versinon) async {
       await db.execute("CREATE TABLE $TABLE_HABIT ("
-          "$COLUMN_ID INTEGER PRIMARY KEY,"
+          "$COLUMN_UID TEXT PRIMARY KEY,"
           "$COLUMN_TITLE TEXT,"
           "$COLUMN_DESCRIPTION TEXT,"
           "$COLUMN_PRIORITY INTEGER,"
@@ -56,7 +56,7 @@ class DatabaseProvider {
     final db = await database;
 
     var habits = await db.query(TABLE_HABIT, columns: [
-      COLUMN_ID,
+      COLUMN_UID,
       COLUMN_TITLE,
       COLUMN_DESCRIPTION,
       COLUMN_PRIORITY,
@@ -80,17 +80,17 @@ class DatabaseProvider {
     db.insert(TABLE_HABIT, habit.toMap());
   }
 
-  Future<void> deleteHabit(int id) async {
+  Future<void> deleteHabit(String uid) async {
     final db = await database;
 
-    db.delete(TABLE_HABIT, where: "id = ?", whereArgs: [id]);
+    db.delete(TABLE_HABIT, where: "uid = ?", whereArgs: [uid]);
   }
 
   Future<void> updateHabit(Habit habit) async {
     final db = await database;
 
     db.update(TABLE_HABIT, habit.toMap(),
-        where: "id = ?", whereArgs: [habit.id]);
+        where: "uid = ?", whereArgs: [habit.uid]);
   }
 
   Future<void> clearDatabase() async {

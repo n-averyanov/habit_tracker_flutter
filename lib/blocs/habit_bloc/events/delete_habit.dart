@@ -1,7 +1,7 @@
 import 'habit_event.dart';
 
 class DeleteHabit extends HabitEvent {
-  final int id;
+  final String uid;
 
-  DeleteHabit(this.id);
+  DeleteHabit(this.uid);
 }
