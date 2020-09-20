@@ -77,7 +77,7 @@ class DatabaseProvider {
   Future<void> insertHabit(Habit habit) async {
     final db = await database;
 
-    db.insert(TABLE_HABIT, habit.toMap());
+    db.insert(TABLE_HABIT, habit.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> deleteHabit(int id) async {
