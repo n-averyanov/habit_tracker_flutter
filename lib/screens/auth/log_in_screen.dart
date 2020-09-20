@@ -5,6 +5,10 @@ import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_in.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/events/sign_up.dart';
 
 class LogInScreen extends StatefulWidget {
+  final String error;
+
+  LogInScreen({this.error});
+
   @override
   _LogInScreenState createState() => _LogInScreenState();
 }
@@ -13,6 +17,8 @@ class _LogInScreenState extends State<LogInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  String error;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +42,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   TextFormField(
                     controller: _emailController,
                     validator: (value) {
-                      return value.isEmpty
-                          ? 'Enter an email'
-                          : null;
+                      return value.isEmpty ? 'Enter an email' : null;
                     },
                   ),
                   SizedBox(
@@ -56,30 +60,43 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      RaisedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            block.add(SignUp(_emailController.text.trim(),
-                                _passwordController.text.trim()));
-                          }
-                        },
-                        child: Text('Sign Up'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RaisedButton(
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                block.add(SignUp(_emailController.text.trim(),
+                                    _passwordController.text.trim()));
+                              }
+                            },
+                            child: Text('Sign Up'),
+                          ),
+                          SizedBox(width: 24),
+                          RaisedButton(
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                block.add(SignIn(_emailController.text.trim(),
+                                    _passwordController.text.trim()));
+                              }
+                            },
+                            child: Text('Sign In'),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 24),
-                      RaisedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            block.add(SignIn(_emailController.text.trim(),
-                                _passwordController.text.trim()));
-                          }
-                        },
-                        child: Text('Sign In'),
+                      Visibility(
+                        visible: widget.error != null,
+                        child: Card(
+                            child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(widget.error ?? "")),
+                            color: Colors.red),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/auth_bloc.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/auth_state.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/loading_state.dart';
+import 'package:habit_tracker_flutter/blocs/auth_bloc/states/login_error.dart';
 import 'package:habit_tracker_flutter/blocs/auth_bloc/states/user_logged_in.dart';
 import 'package:habit_tracker_flutter/screens/auth/log_in_screen.dart';
 import 'package:habit_tracker_flutter/screens/habit/home_page.dart';
@@ -16,6 +17,10 @@ class AuthControlWidget extends StatelessWidget {
           return HomePage();
         } else if (state is LoadingState) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
+        } else if (state is LoginError) {
+          return LogInScreen(
+            error: state.error,
+          );
         } else {
           return LogInScreen();
         }
