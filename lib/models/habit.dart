@@ -1,7 +1,7 @@
 import 'package:habit_tracker_flutter/database/database_provider.dart';
 
 class Habit {
-  int id;
+  String uid;
   var title = "";
   var description = "";
   var priority = HabitPriority.high;
@@ -17,6 +17,7 @@ class Habit {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
+      DatabaseProvider.COLUMN_UID: uid,
       DatabaseProvider.COLUMN_TITLE: title,
       DatabaseProvider.COLUMN_DESCRIPTION: description,
       DatabaseProvider.COLUMN_PRIORITY: priority.index,
@@ -29,15 +30,11 @@ class Habit {
       DatabaseProvider.COLUMN_IS_COMPLETE: isComplete
     };
 
-    if (id != null) {
-      map[DatabaseProvider.COLUMN_ID] = id;
-    }
-
     return map;
   }
 
   Habit.fromMap(Map<String, dynamic> map) {
-    id = map[DatabaseProvider.COLUMN_ID];
+    uid = map[DatabaseProvider.COLUMN_UID];
     title = map[DatabaseProvider.COLUMN_TITLE];
     description = map[DatabaseProvider.COLUMN_DESCRIPTION];
     priority = HabitPriority.values[map[DatabaseProvider.COLUMN_PRIORITY]];

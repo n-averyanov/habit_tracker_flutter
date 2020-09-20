@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habit_tracker_flutter/habit_bloc/events/delete_habit.dart';
-import 'package:habit_tracker_flutter/habit_bloc/habit_bloc.dart';
+import 'package:habit_tracker_flutter/blocs/habit_bloc/events/delete_habit.dart';
+import 'package:habit_tracker_flutter/blocs/habit_bloc/habit_bloc.dart';
 import 'package:habit_tracker_flutter/models/habit.dart';
 
 class HabitWidget extends StatelessWidget {
@@ -38,7 +38,7 @@ class HabitWidget extends StatelessWidget {
                                 color: Colors.red,
                               ),
                               onPressed: () {
-                                bloc.add(DeleteHabit(habit.id));
+                                bloc.add(DeleteHabit(habit.uid));
                               }))),
                 ],
               ),
